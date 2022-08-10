@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Typography from '@mui/material/Typography';
+import ShowAllSystems from '../components/ShowAllSystems';
 
 function ManagerPage() {
 
     return(
         <>
-        <Typography variant="h1" component="h2">All SYSTEMS</Typography>,
+        <Typography variant="h4" component="h2" textAlign={'center'}>
+        </Typography>,
+        <ShowAllSystems/>
         </>
     )
 }

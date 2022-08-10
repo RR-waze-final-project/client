@@ -4,7 +4,7 @@ import Login from "./components/fireBase/login";
 import Register from "./components/fireBase/register";
 import Reset from "./components/fireBase/reset";
 import Dashboard from "./components/fireBase/dashboard";
-import ManagerPage from "./components/view/ManagerPage";
+import ManagerPage from "./view/ManagerPage";
 
 function App() {
   return (
