@@ -3,10 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
-    "@fontsource/roboto": "^4.5.8",
-    "@mui/material": "^5.10.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -14,6 +10,7 @@
     "@types/node": "^16.11.47",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "@types/react-router-dom": "^5.3.3",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "firebase": "^9.9.2",
