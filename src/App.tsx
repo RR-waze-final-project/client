@@ -5,6 +5,7 @@ import Register from "./components/fireBase/register";
 import Reset from "./components/fireBase/reset";
 import Dashboard from "./components/fireBase/dashboard";
 import { EditSystem } from './components/EditSystem'
+import ManagerPage from "./view/ManagerPage";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/reset" element={<Reset />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/manager/:id" element={<ManagerPage />} />
+
         </Routes>
       </Router>
     </div>
