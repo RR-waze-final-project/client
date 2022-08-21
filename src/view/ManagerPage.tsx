@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Typography from '@mui/material/Typography';
 import ShowAllSystems from '../components/ShowAllSystems';
 
-function ManagerPage() {
-
+const ManagerPage: React.FC = () => {  
     return(
         <>
-        <Typography variant="h4" component="h2" textAlign={'center'}>
-        </Typography>,
         <ShowAllSystems/>
         </>
     )
