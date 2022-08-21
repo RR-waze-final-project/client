@@ -5,7 +5,6 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
-import { AccessAlarm, ThreeDRotation } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Dialog from '@mui/material/Dialog';
@@ -29,14 +28,16 @@ interface System {
     objectName: string;
     adminUid: any;
     description: string;
-    communicationDetails: object;
+    communicationDetails: {email: string, phone: string};
 }
 
 function ShowAllSystems() {
     const id: any = "62f36d94a859f1a4aa9a8888";
-    const maxOfSystems: number = 2;
+    const maxOfSystems: number = 3;
+    const [numOfSystems, setNumOfSystems] = useState<number>(3);
     const [systems, setSystems] = useState<System[]>([]);
     const [open, setOpen] = React.useState<boolean>(false);
+    const [openEdit, setOpenEdit] = React.useState<boolean>(false);
     const inputTopic = useRef<HTMLInputElement>();
     const inputName = useRef<HTMLInputElement>();
     const inputUrl = useRef<HTMLInputElement>();
@@ -46,12 +47,20 @@ function ShowAllSystems() {
     const inputPhone = useRef<HTMLInputElement>();
 
     const handleClickOpen = () => {
-      setOpen(true);
+    if(numOfSystems === maxOfSystems)swal("You cannot add a new system" ,"you have reached the maximum possible amount of systems")
+    else setOpen(true);
     };
     const handleClose = () => {
       setOpen(false);
     };
+    const handleClickOpenEdit = () => {
+        setOpenEdit(true);
+      };
+      const handleCloseEdit = () => {
+        setOpenEdit(false);
+      };
     const handleCloseAndSave = async() => {
+        debugger
         setOpen(false);
         const systemToSave = {
             topic : inputTopic.current?.value,
@@ -68,6 +77,7 @@ function ShowAllSystems() {
         console.log(systemToSave);
         try {
             await axios.post(`http://localhost:3333/system`, systemToSave)
+            setNumOfSystems(numOfSystems + 1);
                    swal({
                        title: "Saved!",
                        text: "your details update",
@@ -78,6 +88,34 @@ function ShowAllSystems() {
             console.log(err);
         }
       };
+      const editSystem = async(systemId: any) => { 
+        setOpenEdit(false);
+        const systemToSave = {
+            topic : inputTopic.current?.value,
+            urlName : inputName.current?.value,
+            urlImg : inputUrl.current?.value,
+            objectName : inputObjectName.current?.value,
+            adminUid : id,
+            description : inputDescription.current?.value,
+            communicationDetails:{
+                email : inputEmail.current?.value,
+                phone : inputPhone.current?.value,
+            }
+        }
+        console.log(systemToSave);
+        try {
+            await axios.put(`http://localhost:3333/system/${systemId}`, systemToSave)
+                   swal({
+                       title: "Saved!",
+                       text: "your details update",
+                       icon: "success",
+                       button: "ok!",
+                   }as any);
+        }catch (err) {
+            console.log(err);
+        }
+      };
+
 
     useEffect(() => {
         const fetch = async () => {
@@ -90,10 +128,6 @@ function ShowAllSystems() {
         };
         fetch();
     }, [systems]);
-
-     function editSystem(id:any):void{
-        
-     }
     function deleteSystem(id:any):void{
         const fetch = async () => {
             try {
@@ -103,6 +137,7 @@ function ShowAllSystems() {
                     buttons: ["cancel", "ok"],
                 });
                 if (willDelete) {
+                    setNumOfSystems(numOfSystems - 1);
                     await axios.delete(`http://localhost:3333/system/${id}`);
                     swal("Deleted!", "Your system has been deleted.", "success");
                   };
@@ -135,7 +170,36 @@ function ShowAllSystems() {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button variant="contained" size="small" onClick={() => editSystem( systemCard._id)}>edit</Button>
+                    <Button variant="contained" size="small" onClick={handleClickOpenEdit}>edit</Button>
+                    {/* <Box  sx={{ width: '100%', display: 'flex',marginBottom: '0%' }}> */}
+                        <Dialog
+                          open={openEdit}
+                          onClose={handleCloseEdit}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">
+                              {"Add your system details to update"}
+                            </DialogTitle>
+                            <DialogContent >
+                              <DialogContentText id="alert-dialog-description">
+                              <TextField id="filled-password-input" inputRef={inputTopic} defaultValue={systemCard.topic}  variant="filled" required sx={{margin: '3%'}}/> <br />
+                                <TextField id="outlined-basic" inputRef={inputUrl} defaultValue={systemCard.urlName} variant="filled" required sx={{margin: '3%'}}/><br />
+                                <TextField id="outlined-basic" inputRef={inputUrl} defaultValue={systemCard.urlImg} variant="filled" required sx={{margin: '3%'}}/><br />
+                                <TextField id="outlined-basic" inputRef={inputObjectName}  defaultValue={systemCard.objectName} variant="filled" required sx={{margin: '3%'}}/><br />
+                                <TextField id="outlined-basic" inputRef={inputDescription} defaultValue={systemCard.description} variant="filled" required sx={{margin: '3%'}}/><br />
+                                <TextField id="outlined-basic" inputRef={inputEmail} defaultValue={systemCard.communicationDetails.email} variant="filled" sx={{margin: '3%'}}/><br />
+                                <TextField id="outlined-basic" inputRef={inputPhone} defaultValue={systemCard.communicationDetails.phone} variant="filled" sx={{margin: '3%'}}/>
+                              </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                              <Button onClick={handleCloseEdit}>Cancel</Button>
+                              <Button onClick={() => editSystem( systemCard._id)} autoFocus>
+                               Save
+                              </Button>
+                            </DialogActions>
+                        </Dialog>
+                        {/* </Box> */}
                     <Button variant="contained" size="small" onClick={() => deleteSystem( systemCard._id)}>delete</Button>
                 </CardActions>
             </Card>
