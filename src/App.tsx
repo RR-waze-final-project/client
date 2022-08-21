@@ -4,12 +4,16 @@ import Login from "./components/fireBase/login";
 import Register from "./components/fireBase/register";
 import Reset from "./components/fireBase/reset";
 import Dashboard from "./components/fireBase/dashboard";
+import { EditSystem } from './components/EditSystem'
 import ManagerPage from "./view/ManagerPage";
 import ShowAllSystems from "./components/ShowAllSystems";
 
 function App() {
   return (
     <div className="app">
+      <EditSystem 
+        systemUid={'62f2735c00213822e9e87bb8'}
+      />
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -21,7 +25,7 @@ function App() {
       </Router>
     </div>
   );
- }
+}
 
 export default App;
 
