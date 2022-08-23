@@ -14,7 +14,7 @@ import swal from 'sweetalert';
 // import { async } from '@firebase/util';
 // import { idText } from 'typescript';
 import { useNavigate } from 'react-router-dom';
-import { EditSystem } from './EditSystem';
+import { EditSystem } from './editSystem';
 
 interface System {
   _id: any;
