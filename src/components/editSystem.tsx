@@ -1,113 +1,138 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState, useRef } from 'react';
-import axios from 'axios';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useRef, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
-import SaveIcon from '@mui/icons-material/Save';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import TextField from '@mui/material/TextField';
+import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios';
 import swal from 'sweetalert';
-
 interface props {
     systemUid: string;
+    setOpenEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
-
-interface system {
-    uid: string;
+interface System {
+    _id: any;
     topic: string;
     urlName: string;
     urlImg: string;
     objectName: string;
-    adminUid: string;
+    adminUid: any;
     description: string;
-    communicationDetails: {
-        email?: string;
-        phone?: string;
-    };
+    communicationDetails: { email: string, phone: string };
 }
-
-export const EditSystem: React.FC<props> = ({ systemUid }) => {
-
-    const [system, setSystem] = useState<system>();
-
-    const inputTopic = useRef<HTMLInputElement>(null);
-    const inputUrlName = useRef<HTMLInputElement>(null);
-    const inputUrlImg = useRef<HTMLInputElement>(null);
-    const inputObjectName = useRef<HTMLInputElement>(null);
-    const inputDescription = useRef<HTMLInputElement>(null);
-    const inputEmail = useRef<HTMLInputElement>(null);
-    const inputPhone = useRef<HTMLInputElement>(null);
-
+export const EditSystem: React.FC<props> = ({ systemUid, setOpenEdit }: props) => {
+    const [system, setSystem] = useState<System | null>(null);
+    const inputTopic = useRef<HTMLInputElement>();
+    const inputName = useRef<HTMLInputElement>();
+    const inputUrl = useRef<HTMLInputElement>();
+    const inputObjectName = useRef<HTMLInputElement>();
+    const inputDescription = useRef<HTMLInputElement>();
+    const inputEmail = useRef<HTMLInputElement>();
+    const inputPhone = useRef<HTMLInputElement>();
     useEffect(() => {
-        const getSystem = async () => {
+        const fetch = async () => {
             try {
                 const res = await axios.get(`http://localhost:3333/system/${systemUid}`);
                 setSystem(res.data);
-                console.log(res.data);
-            } catch (err) {
-                console.log(err)
+            } catch (error: any) {
+                alert(error.message);
             }
-        }
-
-        getSystem();
+        };
+        fetch();
     }, []);
-
-    const saveChanges = async () => {
-        try {
-            if (!inputEmail.current?.value && !inputPhone.current?.value) {
-                swal("Cancelled", "You have to fill email eor phone :)", "error");
-            }
-            else {
-                const body = {
+    const editSystem = async () => {
+        const systemToSave = {
             topic: inputTopic.current?.value,
-                    urlName: inputUrlName.current?.value,
-                    urlImg: inputUrlImg.current?.value,
+            urlName: inputName.current?.value,
+            urlImg: inputUrl.current?.value,
             objectName: inputObjectName.current?.value,
             adminUid: system?.adminUid,
             description: inputDescription.current?.value,
             communicationDetails: {
                 email: inputEmail.current?.value,
                 phone: inputPhone.current?.value,
-                    },
             }
-                const res = await axios.put(`http://localhost:3333/system/${systemUid}`, body);
-                console.log('put system');
-                console.log(res.data);
         }
+        try {
+            await axios.put(`http://localhost:3333/system/${systemUid}`, systemToSave)
+            await swal({
+                title: "Saved!",
+                text: "your details update",
+                icon: "success",
+                button: "ok!",
+            } as any);
+            close();
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
-    }
-
+    };
+    const close = () => setOpenEdit(false);
     return (
-        <form
-            onSubmit={saveChanges}>
-            {system &&
-                <>
-                    <h1>Edit System</h1>
-                    <Box
-                        component="form"
-                        sx={{
-                            '& .MuiTextField-root': { m: 1, width: '25ch' },
-                        }}
-                        noValidate
-                        autoComplete="off"
+        <Dialog
+            open={system != null}
+            onClose={close}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
         >
-                        <div>
-                            <>
-                                <TextField id="filled-password-input" label='topic' type='text' defaultValue={system.topic} inputRef={inputTopic} variant="filled" required /> <br />
-                                <TextField id="filled-password-input" label='urlName' type='text' defaultValue={system.urlName} inputRef={inputUrlName} variant="filled" required /><br />
-                                <TextField id="filled-password-input" label='objectName' type='text' defaultValue={system.objectName} inputRef={inputObjectName} variant="filled" required /><br />
-                                <TextField id="filled-multiline-static" label='description' multiline rows={4} defaultValue={system.description} inputRef={inputDescription} variant="filled" required /><br />
-                                <TextField id="filled-multiline-static" label='email' type='text' defaultValue={system.communicationDetails.email} inputRef={inputEmail} variant="filled" /><br />
-                                <TextField id="filled-multiline-static" label='phone' type='text' defaultValue={system.communicationDetails.phone} inputRef={inputPhone} variant="filled" />
-                            </>
-                        </div>
-                    </Box>
-                    <Button type="submit" variant="outlined" startIcon={<SaveIcon />}>
-                        SAVE
-                    </Button></>
-
-            }</form>
+            <DialogTitle id="alert-dialog-title">
+                {"Add your system details to update"}
+            </DialogTitle>
+            <DialogContent >
+                <DialogContentText id="alert-dialog-description">
+                    <TextField id="filled-password-input"
+                        inputRef={inputTopic}
+                        defaultValue={system?.topic}
+                        variant="filled"
+                        required sx={{ margin: '3%' }}
+                    /> <br />
+                    <TextField id="outlined-basic"
+                        inputRef={inputUrl}
+                        defaultValue={system?.urlName}
+                        variant="filled"
+                        required sx={{ margin: '3%' }}
+                    /><br />
+                    <TextField id="outlined-basic"
+                        inputRef={inputUrl}
+                        defaultValue={system?.urlImg}
+                        variant="filled"
+                        required sx={{ margin: '3%' }}
+                    /><br />
+                    <TextField id="outlined-basic"
+                        inputRef={inputObjectName}
+                        defaultValue={system?.objectName}
+                        variant="filled"
+                        required sx={{ margin: '3%' }}
+                    /><br />
+                    <TextField id="outlined-basic"
+                        inputRef={inputDescription}
+                        defaultValue={system?.description}
+                        // multiline
+                        rows={2}
+                        variant="filled"
+                        required sx={{ margin: '3%'}}
+                    /><br />
+                    <TextField id="outlined-basic"
+                        inputRef={inputEmail}
+                        defaultValue={system?.communicationDetails.email || ''}
+                        variant="filled"
+                        sx={{ margin: '3%' }}
+                    /><br />
+                    <TextField id="outlined-basic"
+                        inputRef={inputPhone}
+                        defaultValue={system?.communicationDetails.phone || ''}
+                        variant="filled"
+                        sx={{ margin: '3%' }}
+                    />
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={close}> Cancel </Button>
+                <Button onClick={editSystem} autoFocus> Save </Button>
+            </DialogActions>
+        </Dialog>
     )
 }
-
