@@ -17,24 +17,14 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import { async } from '@firebase/util';
 import { idText } from 'typescript';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { System } from '../utils/System';
+import systemStore from '../store/SystemStore'
+import userStore from '../store/userStore';
 
-
-interface System {
-    _id: any;
-    topic: string;
-    urlName: string;
-    urlImg: string;
-    objectName: string;
-    adminUid: any;
-    description: string;
-    communicationDetails: {email: string, phone: string};
-}
 
 function ShowAllSystems() {
-    const id: any = "62f36d94a859f1a4aa9a8888";
-    const maxOfSystems: number = 3;
-    const [numOfSystems, setNumOfSystems] = useState<number>(3);
+    const maxOfSystems: number = 4;
     const [systems, setSystems] = useState<System[]>([]);
     const [open, setOpen] = React.useState<boolean>(false);
     const [openEdit, setOpenEdit] = React.useState<boolean>(false);
@@ -45,9 +35,11 @@ function ShowAllSystems() {
     const inputDescription = useRef<HTMLInputElement>();
     const inputEmail = useRef<HTMLInputElement>();
     const inputPhone = useRef<HTMLInputElement>();
+    const navigate = useNavigate();
+
 
     const handleClickOpen = () => {
-    if(numOfSystems === maxOfSystems)swal("You cannot add a new system" ,"you have reached the maximum possible amount of systems")
+    if(systems.length === maxOfSystems)swal("You cannot add a new system" ,"you have reached the maximum possible amount of systems")
     else setOpen(true);
     };
     const handleClose = () => {
@@ -60,14 +52,14 @@ function ShowAllSystems() {
         setOpenEdit(false);
       };
     const handleCloseAndSave = async() => {
-        debugger
         setOpen(false);
         const systemToSave = {
+            fireBaseUId:userStore.user?.fireBaseUId,
             topic : inputTopic.current?.value,
             urlName : inputName.current?.value,
             urlImg : inputUrl.current?.value,
             objectName : inputObjectName.current?.value,
-            adminUid : id,
+            adminUid : userStore,
             description : inputDescription.current?.value,
             communicationDetails:{
                 email : inputEmail.current?.value,
@@ -76,8 +68,7 @@ function ShowAllSystems() {
         }
         console.log(systemToSave);
         try {
-            await axios.post(`http://localhost:3333/system`, systemToSave)
-            setNumOfSystems(numOfSystems + 1);
+            await systemStore.addSystem(systemToSave)
                    swal({
                        title: "Saved!",
                        text: "your details update",
@@ -137,7 +128,6 @@ function ShowAllSystems() {
                     buttons: ["cancel", "ok"],
                 });
                 if (willDelete) {
-                    setNumOfSystems(numOfSystems - 1);
                     await axios.delete(`http://localhost:3333/system/${id}`);
                     swal("Deleted!", "Your system has been deleted.", "success");
                   };
@@ -147,12 +137,18 @@ function ShowAllSystems() {
         };
         fetch();
     }
+    const logout = () =>{
+        navigate('/dashboard')
+    }
     return (
         <>
         <Box sx={{ width: '100%'}}>
         <Typography variant="h4" component="h2" textAlign={'center'}>
             All MY SYSTEMS
         </Typography>
+        <Button className="dashboard__btn" onClick={logout}>
+          Logout
+         </Button>
         {systems && systems.map((systemCard: System) =>            
             <Card key={systemCard._id} sx={{ width: '210px' , float: 'left', marginLeft: '5%', marginTop: '5%' , }}>
                 <CardMedia
@@ -171,7 +167,6 @@ function ShowAllSystems() {
                 </CardContent>
                 <CardActions>
                     <Button variant="contained" size="small" onClick={handleClickOpenEdit}>edit</Button>
-                    {/* <Box  sx={{ width: '100%', display: 'flex',marginBottom: '0%' }}> */}
                         <Dialog
                           open={openEdit}
                           onClose={handleCloseEdit}
@@ -199,7 +194,6 @@ function ShowAllSystems() {
                               </Button>
                             </DialogActions>
                         </Dialog>
-                        {/* </Box> */}
                     <Button variant="contained" size="small" onClick={() => deleteSystem( systemCard._id)}>delete</Button>
                 </CardActions>
             </Card>
