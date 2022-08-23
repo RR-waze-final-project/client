@@ -10,26 +10,39 @@ import "./register.css";
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   const register = () => {
-    if (!name) alert("Please enter name");
-    registerWithEmailAndPassword(name, email, password);
+    if (!firstName || !lastName) {alert("Please enter name");
+    registerWithEmailAndPassword(firstName, lastName, email, password);
   };
+}
+
   useEffect(() => {
     if (loading) return;
     if (user) navigate("/dashboard");
   }, [user, loading]);
+
   return (
     <div className="register">
       <div className="register__container">
         <input
           type="text"
           className="register__textBox"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Full Name"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          placeholder="First Name"
+        />
+        <input
+          type="text"
+          className="register__textBox"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          placeholder="Last Name"
         />
         <input
           type="text"
@@ -37,6 +50,13 @@ function Register() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="E-mail Address"
+        />
+        <input
+          type="text"
+          className="register__textBox"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="phone"
         />
         <input
           type="password"
