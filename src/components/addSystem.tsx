@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -15,7 +14,7 @@ interface props {
     setOpenAdd: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const AddSystem = ({ adminUid, setOpenAdd }: props) => {
+export const AddSystem: React.FC<props> = ({ adminUid, setOpenAdd }: props) => {
 
     const inputTopic = useRef<HTMLInputElement>();
     const inputName = useRef<HTMLInputElement>();
@@ -39,7 +38,6 @@ export const AddSystem = ({ adminUid, setOpenAdd }: props) => {
             phone: inputPhone.current?.value,
           }
         }
-        console.log(systemToSave);
         try {
           await axios.post(`http://localhost:3333/system`, systemToSave)
           swal({

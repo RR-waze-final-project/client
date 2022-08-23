@@ -73,10 +73,8 @@ function ShowAllSystems() {
     fetch();
   }
 
+  const navigate = useNavigate();
   const linkedToSystemPage = (urlName: string) => {
-    console.log(`${urlName} - navigate to system`);
-    debugger
-    const navigate = useNavigate();
     return navigate(`/${urlName}`);
   }
 
@@ -87,7 +85,6 @@ function ShowAllSystems() {
           All MY SYSTEMS
         </Typography>
         {systems && systems.map((systemCard: System) =>
-          // <button onClick={() => navigate("/ManagerPage");}>
           <Card
             key={systemCard._id}
             sx={{ width: '210px', float: 'left', marginLeft: '5%', marginTop: '5%', }}
@@ -115,7 +112,6 @@ function ShowAllSystems() {
               <Button variant="contained" size="small" onClick={() => deleteSystem(systemCard._id)}>delete</Button>
             </CardActions>
           </Card>
-          // </button>
         )}
       </Box>
       <Box sx={{ width: '100%', display: 'flex', marginBottom: '0%' }} >

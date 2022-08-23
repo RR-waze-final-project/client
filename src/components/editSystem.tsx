@@ -27,7 +27,7 @@ interface System {
     communicationDetails: { email: string, phone: string };
 }
 
-export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
+export const EditSystem: React.FC<props> = ({ systemUid, setOpenEdit }: props) => {
 
     const [system, setSystem] = useState<System | null>(null);
 
@@ -43,7 +43,6 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
         const fetch = async () => {
             try {
                 const res = await axios.get(`http://localhost:3333/system/${systemUid}`);
-                console.log(res.data);
                 setSystem(res.data);
             } catch (error: any) {
                 alert(error.message);
