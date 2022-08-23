@@ -28,7 +28,7 @@ constructor(){
 }
 
 async getAllSystems() {
-    this.systems = await getAllSystems(userStore.user._id);
+    this.systems = await getAllSystems(userStore.user?._id);
 }
 
 async addSystem(system:System){

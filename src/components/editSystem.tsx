@@ -10,21 +10,11 @@ import TextField from '@mui/material/TextField';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import swal from 'sweetalert';
+import {System} from '../utils/System'
 
 interface props {
     systemUid: string;
     setOpenEdit: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface System {
-    _id: any;
-    topic: string;
-    urlName: string;
-    urlImg: string;
-    objectName: string;
-    adminUid: any;
-    description: string;
-    communicationDetails: { email: string, phone: string };
 }
 
 export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
