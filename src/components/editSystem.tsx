@@ -50,7 +50,7 @@ export const EditSystem: React.FC<props> = ({ systemUid }) => {
 
         getSystem();
     }, []);
-
+    
     const saveChanges = async () => {
         try {
             if (!inputEmail.current?.value && !inputPhone.current?.value) {
@@ -58,21 +58,21 @@ export const EditSystem: React.FC<props> = ({ systemUid }) => {
             }
             else {
                 const body = {
-            topic: inputTopic.current?.value,
+                    topic: inputTopic.current?.value,
                     urlName: inputUrlName.current?.value,
                     urlImg: inputUrlImg.current?.value,
-            objectName: inputObjectName.current?.value,
-            adminUid: system?.adminUid,
-            description: inputDescription.current?.value,
-            communicationDetails: {
-                email: inputEmail.current?.value,
-                phone: inputPhone.current?.value,
+                    objectName: inputObjectName.current?.value,
+                    adminUid: system?.adminUid,
+                    description: inputDescription.current?.value,
+                    communicationDetails: {
+                        email: inputEmail.current?.value,
+                        phone: inputPhone.current?.value,
                     },
-            }
+                }
                 const res = await axios.put(`http://localhost:3333/system/${systemUid}`, body);
                 console.log('put system');
                 console.log(res.data);
-        }
+            }
         } catch (err) {
             console.log(err)
         }
@@ -91,7 +91,7 @@ export const EditSystem: React.FC<props> = ({ systemUid }) => {
                         }}
                         noValidate
                         autoComplete="off"
-        >
+                    >
                         <div>
                             <>
                                 <TextField id="filled-password-input" label='topic' type='text' defaultValue={system.topic} inputRef={inputTopic} variant="filled" required /> <br />
