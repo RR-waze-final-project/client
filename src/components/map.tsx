@@ -1,16 +1,27 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useMemo } from 'react';
+// useCallback, useState, useRef,
+import { GoogleMap } from '@react-google-maps/api';
+// , Marker, DirectionsRenderer, Circle, MarkerClusterer
+// type gml = google.maps.LatLngLiteral;
+// type gmd = google.maps.DirectionsResult;
+// type gmm = google.maps.MapOptions;
+import '../style/map.css';
 
-export const Map: React.FC<{}> = () => {
+export const Map = () => {
 
-  const ref = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<google.maps.Map>();
+    const center = useMemo(() => ({
+        lat: 31.75,
+        lng: 35.2
+    }), []);
 
-  useEffect(() => {
-    if (ref.current && !map) {
-      setMap(new window.google.maps.Map(ref.current, {}));
-    }
-  }, [ref, map]);
-
-  return <div ref={ref} />
+    return (
+        <div>
+            <GoogleMap
+                zoom={12}
+                center={center}
+                mapContainerClassName='map-container'
+            ></GoogleMap>
+        </div>
+    )
 }
 
