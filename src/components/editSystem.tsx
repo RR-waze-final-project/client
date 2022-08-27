@@ -24,9 +24,6 @@ interface system {
         phone?: string;
     };
 }
-
-export const EditSystem: React.FC<props> = ({ systemUid }) => {
-
     const [system, setSystem] = useState<system>();
 
     const inputTopic = useRef<HTMLInputElement>(null);
@@ -79,6 +76,7 @@ export const EditSystem: React.FC<props> = ({ systemUid }) => {
     }
 
     return (
+        
         <form
             onSubmit={saveChanges}>
             {system &&
@@ -109,5 +107,5 @@ export const EditSystem: React.FC<props> = ({ systemUid }) => {
 
             }</form>
     )
-}
+
 

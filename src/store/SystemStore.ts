@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import axios from 'axios';
 import {System} from '../utils/System';
-import userStore from './userStore';
+import userStore from './UserStore';
 
 const addSystem=async(systemToDb:System)=>{
     try {

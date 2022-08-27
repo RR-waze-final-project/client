@@ -14,19 +14,10 @@ import swal from 'sweetalert';
 // import { async } from '@firebase/util';
 // import { idText } from 'typescript';
 import { useNavigate } from 'react-router-dom';
+import { System } from '../utils/System';
 import { EditSystem } from './editSystem';
 
-interface System {
-  _id: any;
-  topic: string;
-  urlName: string;
-  urlImg: string;
-  objectName: string;
-  adminUid: any;
-  description: string;
-  communicationDetails: { email: string, phone: string };
-}
-​
+
 function ShowAllSystems() {
   const id = '62f36d94a859f1a4aa9a8888';
   const maxOfSystems: number = 4;
