@@ -24,7 +24,9 @@ interface System {
     description: string;
     communicationDetails: { email: string, phone: string };
 }
-export const EditSystem: React.FC<props> = ({ systemUid, setOpenEdit }: props) => {
+
+export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
+
     const [system, setSystem] = useState<System | null>(null);
     const inputTopic = useRef<HTMLInputElement>();
     const inputName = useRef<HTMLInputElement>();
@@ -44,6 +46,7 @@ export const EditSystem: React.FC<props> = ({ systemUid, setOpenEdit }: props) =
         };
         fetch();
     }, []);
+
     const editSystem = async () => {
         const systemToSave = {
             topic: inputTopic.current?.value,

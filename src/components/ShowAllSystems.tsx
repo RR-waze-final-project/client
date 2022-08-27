@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import * as React from 'react';
 import { useEffect, useState } from 'react';
+import { EditSystem } from './editSystem';
 import { AddSystem } from './addSystem';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -14,11 +15,18 @@ import swal from 'sweetalert';
 // import { async } from '@firebase/util';
 // import { idText } from 'typescript';
 import { useNavigate } from 'react-router-dom';
-import { System } from '../utils/System';
-import { EditSystem } from './editSystem';
+interface System {
+  _id: any;
+  topic: string;
+  urlName: string;
+  urlImg: string;
+  objectName: string;
+  adminUid: any;
+  description: string;
+  communicationDetails: { email: string, phone: string };
+}
 
-
-function ShowAllSystems() {
+const ShowAllSystems = () => {
   const id = '62f36d94a859f1a4aa9a8888';
   const maxOfSystems: number = 4;
   const [systemIdTOEdit, setSystemIdTOEdit] = useState('0');
@@ -63,25 +71,19 @@ function ShowAllSystems() {
     fetch();
   }
 
-  const linkedToSystemPage = (urlName: string) => {
-    console.log(`${urlName} - navigate to system`);
-    debugger
-    const navigate = useNavigate();
-    return navigate(`/${urlName}`);
-  }
+  const navigate = useNavigate();
 
   return (
     <>
       <Box sx={{ width: '100%' }}>
         <Typography variant="h4" component="h2" textAlign={'center'}>
-          All MY SYSTEMS
+        All MY SYSTEMS
         </Typography>
         {systems && systems.map((systemCard: System) =>
-          // <button onClick={() => navigate("/ManagerPage");}>
           <Card
             key={systemCard._id}
             sx={{ width: '210px', float: 'left', marginLeft: '5%', marginTop: '5%', }}
-            onClick={() => linkedToSystemPage(systemCard.urlName)}
+            onClick={() => navigate(`/${systemCard.urlName}`)}
           >
             <CardMedia
               width="350px"
@@ -105,12 +107,11 @@ function ShowAllSystems() {
               <Button variant="contained" size="small" onClick={() => deleteSystem(systemCard._id)}>delete</Button>
             </CardActions>
           </Card>
-          // </button>
         )}
-      </Box>
+        </Box>
       <Box sx={{ width: '100%', display: 'flex', marginBottom: '0%' }} >
         <Button variant="outlined" onClick={handleClickOpen}>
-          Add a new system
+        Add a new system
         </Button>
 
       </Box>
@@ -119,8 +120,8 @@ function ShowAllSystems() {
 
       {openAdd && <AddSystem adminUid={id} setOpenAdd={setOpenAdd} />}
     </>
-  )
+      )
 
-}
-export default ShowAllSystems;
+    }
+    export default ShowAllSystems;
 
