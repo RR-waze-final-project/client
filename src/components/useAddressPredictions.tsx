@@ -66,4 +66,3 @@ export const UseAddressPredictions = (input: string) => {
         predictions
     )
 }
-

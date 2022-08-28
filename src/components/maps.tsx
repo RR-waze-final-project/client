@@ -15,8 +15,8 @@ export const Maps = () => {
 
   return (
     <div>
-      <Map />
       <AutoComplete />
+      <Map />
     </div>
   )
 }

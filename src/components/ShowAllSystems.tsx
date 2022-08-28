@@ -16,8 +16,6 @@ import swal from 'sweetalert';
 // import { idText } from 'typescript';
 import { useNavigate } from 'react-router-dom';
 import '../style/ShowAllSystems.css';
-
-
 interface System {
   _id: any;
   topic: string;
@@ -130,4 +128,3 @@ const ShowAllSystems = () => {
 
 }
 export default ShowAllSystems;
-
