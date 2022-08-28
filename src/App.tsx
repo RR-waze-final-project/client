@@ -12,7 +12,7 @@ import { AutoComplete } from'./components/autoComplete';
 function App() {
   return (
     <div className='app'>
-      <AutoComplete />
+      {/* <AutoComplete /> */}
       <Maps />
       <Router>
         <Routes>
