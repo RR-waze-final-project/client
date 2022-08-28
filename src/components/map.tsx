@@ -17,7 +17,7 @@ export const Map = () => {
     return (
         <div>
             <GoogleMap
-                zoom={12}
+                zoom={10}
                 center={center}
                 mapContainerClassName='map-container'
             ></GoogleMap>

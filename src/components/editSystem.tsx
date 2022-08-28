@@ -32,8 +32,8 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
     const [system, setSystem] = useState<System | null>(null);
 
     const inputTopic = useRef<HTMLInputElement>();
-    const inputName = useRef<HTMLInputElement>();
-    const inputUrl = useRef<HTMLInputElement>();
+    const inputUrlName = useRef<HTMLInputElement>();
+    const inputUrlImg = useRef<HTMLInputElement>();
     const inputObjectName = useRef<HTMLInputElement>();
     const inputDescription = useRef<HTMLInputElement>();
     const inputEmail = useRef<HTMLInputElement>();
@@ -43,7 +43,6 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
         const fetch = async () => {
             try {
                 const res = await axios.get(`http://localhost:3333/system/${systemUid}`);
-                console.log(res.data);
                 setSystem(res.data);
             } catch (error: any) {
                 alert(error.message);
@@ -55,8 +54,8 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
     const editSystem = async () => {
         const systemToSave = {
             topic: inputTopic.current?.value,
-            urlName: inputName.current?.value,
-            urlImg: inputUrl.current?.value,
+            urlName: inputUrlName.current?.value,
+            urlImg: inputUrlImg.current?.value,
             objectName: inputObjectName.current?.value,
             adminUid: system?.adminUid,
             description: inputDescription.current?.value,
@@ -100,13 +99,13 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
                         required sx={{ margin: '3%' }}
                     /> <br />
                     <TextField id="outlined-basic"
-                        inputRef={inputUrl}
+                        inputRef={inputUrlName}
                         defaultValue={system?.urlName}
                         variant="filled"
                         required sx={{ margin: '3%' }}
                     /><br />
                     <TextField id="outlined-basic"
-                        inputRef={inputUrl}
+                        inputRef={inputUrlImg}
                         defaultValue={system?.urlImg}
                         variant="filled"
                         required sx={{ margin: '3%' }}

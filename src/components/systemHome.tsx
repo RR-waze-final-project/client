@@ -1,11 +1,18 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
+import { Maps } from './maps';
+import { AutoComplete } from './autoComplete';
 
 export const SystemHome = () => {
-    const { systemUrl } = useParams();
+  const { systemUrl } = useParams();
 
   return (
-    <div>Welcome to {systemUrl}</div>
+    <div>
+      <header>Welcome to {systemUrl}</header>
+
+      <AutoComplete />
+      <Maps />
+    </div>
   )
 }
 
