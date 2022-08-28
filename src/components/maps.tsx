@@ -1,6 +1,8 @@
 import React from 'react'
 import { useLoadScript } from '@react-google-maps/api';
 import { Map } from './map';
+import { AutoComplete } from './autoComplete';
+
 // process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
 export const Maps = () => {
   const { isLoaded } = useLoadScript({
@@ -13,7 +15,10 @@ export const Maps = () => {
   }
 
   return (
-    <div><Map /></div>
+    <div>
+      <AutoComplete />
+      <Map />
+    </div>
   )
 }
 

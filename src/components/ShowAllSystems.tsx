@@ -128,4 +128,3 @@ const ShowAllSystems = () => {
 
 }
 export default ShowAllSystems;
-

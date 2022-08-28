@@ -10,10 +10,12 @@ import TextField from '@mui/material/TextField';
 import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
 import swal from 'sweetalert';
+
 interface props {
     systemUid: string;
     setOpenEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 interface System {
     _id: any;
     topic: string;
@@ -28,17 +30,20 @@ interface System {
 export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
 
     const [system, setSystem] = useState<System | null>(null);
+
     const inputTopic = useRef<HTMLInputElement>();
-    const inputUrlName = useRef<HTMLInputElement>();
-    const inputUrlImg = useRef<HTMLInputElement>();
+    const inputName = useRef<HTMLInputElement>();
+    const inputUrl = useRef<HTMLInputElement>();
     const inputObjectName = useRef<HTMLInputElement>();
     const inputDescription = useRef<HTMLInputElement>();
     const inputEmail = useRef<HTMLInputElement>();
     const inputPhone = useRef<HTMLInputElement>();
+
     useEffect(() => {
         const fetch = async () => {
             try {
                 const res = await axios.get(`http://localhost:3333/system/${systemUid}`);
+                console.log(res.data);
                 setSystem(res.data);
             } catch (error: any) {
                 alert(error.message);
@@ -50,8 +55,8 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
     const editSystem = async () => {
         const systemToSave = {
             topic: inputTopic.current?.value,
-            urlName: inputUrlName.current?.value,
-            urlImg: inputUrlImg.current?.value,
+            urlName: inputName.current?.value,
+            urlImg: inputUrl.current?.value,
             objectName: inputObjectName.current?.value,
             adminUid: system?.adminUid,
             description: inputDescription.current?.value,
@@ -73,7 +78,9 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
             console.log(err);
         }
     };
+
     const close = () => setOpenEdit(false);
+
     return (
         <Dialog
             open={system != null}
@@ -93,13 +100,13 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
                         required sx={{ margin: '3%' }}
                     /> <br />
                     <TextField id="outlined-basic"
-                        inputRef={inputUrlName}
+                        inputRef={inputUrl}
                         defaultValue={system?.urlName}
                         variant="filled"
                         required sx={{ margin: '3%' }}
                     /><br />
                     <TextField id="outlined-basic"
-                        inputRef={inputUrlImg}
+                        inputRef={inputUrl}
                         defaultValue={system?.urlImg}
                         variant="filled"
                         required sx={{ margin: '3%' }}
