@@ -1,45 +1,44 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// import React from 'react'
-// import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 
-// export const Palces = () => {
-//   return (
-//     <div>palces</div>
-//   )
-// }
+import { useRef, useEffect } from "react";
 
-import React, { useRef } from "react";
+interface props {
+    setCenter: React.Dispatch<React.SetStateAction<{
+        lat: number;
+        lng: number;
+    }>>;
+}
 
-export const AutoComplete = () => {
-    // const autoCompleteRef = useRef<any>();
+export const AutoComplete = ( { setCenter }: props) => {
+
+    const autoCompleteRef = useRef<google.maps.places.Autocomplete>();
     const inputRef = useRef<any>();
-    // const options = {
-    //     componentRestrictions: { country: "ng" },
-    //     fields: ["address_components", "geometry", "icon", "name"],
-    //     types: ["establishment"]
-    // };
 
-    // useEffect(() => {
-    //     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-    //         inputRef.current,
-    //         options
-    //     );
-    // }, []);
-    // debugger
+    const options = {
+        componentRestrictions: { country: "ng" },
+        fields: ["address_components", "geometry", "icon", "name"],
+        types: ["establishment"]
+    };
 
-    const autocomplete =
-        new window.google.maps.places.AutocompleteService();
+    useEffect(() => {
+        autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+            inputRef.current,
+            // options
+        );
 
-    autocomplete.getPlacePredictions(
-        { input: "Samberstraat" },
-        predictions => {
-            // Predictions for "Samberstraat"
-        }
-    );
+        autoCompleteRef.current.addListener("place_changed", async function () {
+            const place = await autoCompleteRef.current?.getPlace();
+            const center = await place?.geometry?.viewport?.getCenter();
+            const lat = center?.lat() || 0;
+            const lng = center?.lng() || 0;
+            setCenter({ lat: lat, lng: lng });
+        });
+        
+    }, []);
 
     return (
         <div>
-            <label>enter address :</label>
+            <label>enter address :</label><br />
             <input ref={inputRef} />
         </div>
     );
