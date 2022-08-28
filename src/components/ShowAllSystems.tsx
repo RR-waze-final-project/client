@@ -15,6 +15,7 @@ import swal from 'sweetalert';
 // import { async } from '@firebase/util';
 // import { idText } from 'typescript';
 import { useNavigate } from 'react-router-dom';
+import '../style/ShowAllSystems.css';
 interface System {
   _id: any;
   topic: string;
@@ -43,7 +44,6 @@ const ShowAllSystems = () => {
     const fetch = async () => {
       try {
         const res = await axios.get(`http://localhost:3333/system/specificSystems/${id}`);
-        console.log(res.data);
         setSystems(res.data);
       } catch (error: any) {
         alert(error.message);
@@ -77,21 +77,25 @@ const ShowAllSystems = () => {
     <>
       <Box sx={{ width: '100%' }}>
         <Typography variant="h4" component="h2" textAlign={'center'}>
-        All MY SYSTEMS
+          All MY SYSTEMS
         </Typography>
         {systems && systems.map((systemCard: System) =>
           <Card
             key={systemCard._id}
             sx={{ width: '210px', float: 'left', marginLeft: '5%', marginTop: '5%', }}
-            onClick={() => navigate(`/${systemCard.urlName}`)}
           >
             <CardMedia
+              className='cardPointer'
+              onClick={() => navigate(`/${systemCard.urlName}`)}
               width="350px"
               component="img"
               height="140"
               image={systemCard.urlImg}
               alt="green iguana" />
-            <CardContent>
+            <CardContent
+              className='cardPointer'
+              onClick={() => navigate(`/${systemCard.urlName}`)}
+            >
               <Typography gutterBottom variant="h5" component="div">
                 {systemCard.objectName}
               </Typography>
@@ -108,10 +112,10 @@ const ShowAllSystems = () => {
             </CardActions>
           </Card>
         )}
-        </Box>
+      </Box>
       <Box sx={{ width: '100%', display: 'flex', marginBottom: '0%' }} >
         <Button variant="outlined" onClick={handleClickOpen}>
-        Add a new system
+          Add a new system
         </Button>
 
       </Box>
@@ -120,8 +124,8 @@ const ShowAllSystems = () => {
 
       {openAdd && <AddSystem adminUid={id} setOpenAdd={setOpenAdd} />}
     </>
-      )
+  )
 
-    }
-    export default ShowAllSystems;
+}
+export default ShowAllSystems;
 

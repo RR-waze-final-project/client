@@ -6,14 +6,10 @@ import Reset from './components/fireBase/reset';
 import Dashboard from './components/fireBase/dashboard';
 import ManagerPage from './view/ManagerPage';
 import { SystemHome } from './components/systemHome';
-import { Maps } from './components/maps';
-import { AutoComplete } from'./components/autoComplete';
 
 function App() {
   return (
     <div className='app'>
-      {/* <AutoComplete /> */}
-      <Maps />
       <Router>
         <Routes>
           <Route path='/' element={<Login />} />

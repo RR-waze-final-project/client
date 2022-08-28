@@ -9,28 +9,37 @@
 // }
 
 import { useRef, useEffect } from "react";
-// import "./styles.css";
 
 export const AutoComplete = () => {
-    const autoCompleteRef = useRef<any>();
-    const inputRef = useRef<any>();
-    const options = {
-        componentRestrictions: { country: "ng" },
-        fields: ["address_components", "geometry", "icon", "name"],
-        types: ["establishment"]
-    };
+    // const autoCompleteRef = useRef<any>();
+    // const inputRef = useRef<any>();
+    // const options = {
+    //     componentRestrictions: { country: "ng" },
+    //     fields: ["address_components", "geometry", "icon", "name"],
+    //     types: ["establishment"]
+    // };
 
-    useEffect(() => {
-        autoCompleteRef.current = new window.google.maps.places.Autocomplete(
-            inputRef.current,
-            options
-        );
-    }, []);
-    
+    // useEffect(() => {
+    //     autoCompleteRef.current = new window.google.maps.places.Autocomplete(
+    //         inputRef.current,
+    //         options
+    //     );
+    // }, []);
+
+    const autocomplete =
+        new window.google.maps.places.AutocompleteService();
+
+    autocomplete.getPlacePredictions(
+        { input: "Samberstraat" },
+        predictions => {
+            // Predictions for "Samberstraat"
+        }
+    );
+
     return (
         <div>
-            <label>enter address :</label>
-            <input ref={inputRef} />
+            {/* <label>enter address :</label>
+            <input ref={inputRef} /> */}
         </div>
     );
 };
