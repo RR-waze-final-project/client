@@ -8,7 +8,7 @@
 //   )
 // }
 
-import { useRef, useEffect } from "react";
+import React from "react";
 
 export const AutoComplete = () => {
     // const autoCompleteRef = useRef<any>();
@@ -25,9 +25,10 @@ export const AutoComplete = () => {
     //         options
     //     );
     // }, []);
+    // debugger
 
     const autocomplete =
-        new window.google.maps.places.AutocompleteService();
+        new google.maps.places.AutocompleteService();
 
     autocomplete.getPlacePredictions(
         { input: "Samberstraat" },

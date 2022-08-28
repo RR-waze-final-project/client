@@ -1,7 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom';
 import { Maps } from './maps';
-import { AutoComplete } from './autoComplete';
+// import { AutoComplete } from './autoComplete';
 
 export const SystemHome = () => {
   const { systemUrl } = useParams();
@@ -10,7 +10,7 @@ export const SystemHome = () => {
     <div>
       <header>Welcome to {systemUrl}</header>
 
-      <AutoComplete />
+      {/* <AutoComplete /> */}
       <Maps />
     </div>
   )
