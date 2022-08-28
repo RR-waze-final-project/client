@@ -29,8 +29,8 @@ export const AutoComplete = () => {
     
     return (
         <div>
-            <label>enter address :</label>
             <input ref={inputRef} />
+            <label>enter address :</label>
         </div>
     );
 };
