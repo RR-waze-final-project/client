@@ -10,7 +10,12 @@ import '../style/map.css';
 import Marker from './Marker';
 
 
-export const Map = () => {
+interface props {
+  center: { lat: number, lng: number };
+
+}
+export const Map = ({ center }: props) => {
+
     // const getMapOptions = (maps: any) => {
     //     return {
     //       disableDefaultUI: true,
@@ -51,7 +56,6 @@ export const Map = () => {
         };
       };
     
-        const [center, setCenter] = useState({lat: 31.75, lng: 35.2 });
         const [zoom, setZoom] = useState(11);
         return (
             <div style={{ height: '100vh', width: '100%' }}>
@@ -62,8 +66,8 @@ export const Map = () => {
               options={getMapOptions}
             >
               <Marker
-                lat={31.75}
-                lng={35.2}
+                lat={center.lat}
+                lng={center.lng}
                 name="My Marker"
                 color="red"
               />
@@ -71,4 +75,5 @@ export const Map = () => {
           </div>
         );
 }
+
 

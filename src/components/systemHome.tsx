@@ -1,31 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useLoadScript } from '@react-google-maps/api';
 import { SystemHeader } from './systemHeader';
 import { Map } from './map';
 import { Box } from '@mui/material';
 import { AutoComplete } from './autoComplete';
-import { useLoadScript } from '@react-google-maps/api';
-
 
 export const SystemHome = () => {
+
+  const [center, setCenter] = useState<{ lat: number, lng: number }>({
+    lat: 31.75,
+    lng: 35.2
+  });
+
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyADGRXFAQJjRYgjE_UBoOpTp1XWFlpqBu0',
+    googleMapsApiKey: 'AIzaSyAHIBsiBnJUSoL2yBVqvv3FdN2p2em-MUI',
     libraries: ['places']
   })
 
   if (!isLoaded) {
     return <div>loading...</div>
   }
+
   return (
     <div>
-      <Box sx={{textAlign: 'center'}}>
+      <Box sx={{ textAlign: 'center' }}>
         <SystemHeader />
       </Box>
-      <Box sx={{width: '100%', display: 'flex'}}>
-        <Box sx={{width: '80%'}}>
-          <Map />
+      <Box sx={{ width: '100%', display: 'flex' }}>
+        <Box sx={{ width: '80%' }}>
+          <Map center={center}/>
         </Box>
-        <Box sx={{width: '20%', direction: 'rtl'}}>
-          <AutoComplete />
+        <Box sx={{ width: '20%', direction: 'rtl' }}>
+          <AutoComplete setCenter={setCenter} />
         </Box>
       </Box>
     </div>

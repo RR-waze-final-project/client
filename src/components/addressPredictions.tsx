@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { UseAddressPredictions } from "./useAddressPredictions";
 
 export default function AddressPredictions() {
-  const [input, setInput] = useState<any>('');
+  const [input, setInput] = useState<string>('');
 
   const predictions = UseAddressPredictions(input);
 
@@ -13,7 +13,7 @@ export default function AddressPredictions() {
         onChange={event => setInput(event.target.value)}
       />
       <ul>
-        {predictions.map((prediction:any, index: number) => (
+        {predictions.map((prediction: any, index: number) => (
           <li key={index}>{prediction.description}</li>
         ))}
       </ul>
