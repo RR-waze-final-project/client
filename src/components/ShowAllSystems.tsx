@@ -73,12 +73,20 @@ const ShowAllSystems = () => {
 
   const navigate = useNavigate();
 
+  const logout = () =>{
+    debugger
+    navigate('/dashboard')
+}
+
   return (
     <>
       <Box sx={{ width: '100%' }}>
         <Typography variant="h4" component="h2" textAlign={'center'}>
           All MY SYSTEMS
         </Typography>
+        <Button className="dashboard__btn" onClick={logout}>
+          Logout
+         </Button>
         {systems && systems.map((systemCard: System) =>
           <Card
             key={systemCard._id}

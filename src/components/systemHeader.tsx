@@ -2,17 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
-interface System {
-    _id: any;
-    topic: string;
-    urlName: string;
-    urlImg: string;
-    objectName: string;
-    adminUid: any;
-    description: string;
-    communicationDetails: { email: string, phone: string };
-}
+import { System } from '../utils/System';
 
 export const SystemHeader = () => {
 
