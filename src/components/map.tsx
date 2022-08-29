@@ -7,12 +7,13 @@ import { GoogleMap } from '@react-google-maps/api';
 // type gmm = google.maps.MapOptions;
 import '../style/map.css';
 import Marker from './Marker';
+import { TryTwoTone } from '@mui/icons-material';
 
 interface props {
   center: { lat: number, lng: number };
 }
 export const Map = ({ center }: props) => {
-
+   
     return (
         <div>
             <GoogleMap
