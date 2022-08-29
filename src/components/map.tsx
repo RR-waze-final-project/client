@@ -13,11 +13,6 @@ interface props {
 
 export const Map = ({ center }: props) => {
 
-    new google.maps.Marker({
-        position: marker,
-        map: this.map,
-      });
-
     return (
         <div>
             <GoogleMap
