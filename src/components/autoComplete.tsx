@@ -1,12 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 
 import { useRef, useEffect } from "react";
 
 interface props {
-    setCenter: React.Dispatch<React.SetStateAction<{
-        lat: number;
-        lng: number;
-    }>>;
+    setCenter: React.Dispatch<React.SetStateAction<{lat: number, lng: number}>>;
 }
 
 export const AutoComplete = ( { setCenter }: props) => {

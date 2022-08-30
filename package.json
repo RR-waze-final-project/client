@@ -6,8 +6,9 @@
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@googlemaps/react-wrapper": "^1.1.35",
-    "@mui/icons-material": "^5.8.4",
+    "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.0",
+    "@reach/combobox": "^0.17.0",
     "@react-google-maps/api": "^2.12.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -30,6 +31,7 @@
     "react-history-router": "^1.4.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-widgets": "^5.8.4",
     "sweetalert": "^2.1.2",
     "use-places-autocomplete": "^4.0.0",
     "web-vitals": "^2.1.4"
