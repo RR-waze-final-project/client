@@ -8,23 +8,13 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import DialogTitle from '@mui/material/DialogTitle';
-import axios from 'axios';
+import systemStore from '../store/SystemStore';
 import swal from 'sweetalert';
+import { System } from '../utils/System';
 
 interface props {
     systemUid: string;
     setOpenEdit: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface System {
-    _id: any;
-    topic: string;
-    urlName: string;
-    urlImg: string;
-    objectName: string;
-    adminUid: any;
-    description: string;
-    communicationDetails: { email: string, phone: string };
 }
 
 export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
@@ -32,8 +22,8 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
     const [system, setSystem] = useState<System | null>(null);
 
     const inputTopic = useRef<HTMLInputElement>();
-    const inputName = useRef<HTMLInputElement>();
-    const inputUrl = useRef<HTMLInputElement>();
+    const inputUrlName = useRef<HTMLInputElement>();
+    const inputUrlImg = useRef<HTMLInputElement>();
     const inputObjectName = useRef<HTMLInputElement>();
     const inputDescription = useRef<HTMLInputElement>();
     const inputEmail = useRef<HTMLInputElement>();
@@ -41,41 +31,53 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
 
     useEffect(() => {
         const fetch = async () => {
-            try {
-                const res = await axios.get(`http://localhost:3333/system/${systemUid}`);
-                console.log(res.data);
-                setSystem(res.data);
-            } catch (error: any) {
-                alert(error.message);
-            }
+            console.log(systemUid);
+            await systemStore.getSystemById(systemUid);
+            setSystem(systemStore.currentSystem);
         };
         fetch();
     }, []);
 
-    const editSystem = async () => {
-        const systemToSave = {
-            topic: inputTopic.current?.value,
-            urlName: inputName.current?.value,
-            urlImg: inputUrl.current?.value,
-            objectName: inputObjectName.current?.value,
-            adminUid: system?.adminUid,
-            description: inputDescription.current?.value,
-            communicationDetails: {
-                email: inputEmail.current?.value,
-                phone: inputPhone.current?.value,
-            }
+    const allFieldsAreFilled = () => {
+        if (!inputTopic.current?.value || !inputUrlName.current?.value || !inputUrlImg.current?.value ||
+            !inputObjectName.current?.value || !inputDescription.current?.value) {
+            swal("Fill Fields!",
+                "All the fields that marked with * is required!",
+                "error");
+            return false;
         }
-        try {
-            await axios.put(`http://localhost:3333/system/${systemUid}`, systemToSave)
+        if (!inputEmail.current?.value && !inputPhone.current?.value) {
+            swal("Fill Fields!",
+                "we are must your communication details give as your email or phone!",
+                "error");
+            return false;
+        }
+        return true;
+    }
+
+    const editSystem = async () => {
+        if (allFieldsAreFilled()) {
+            const systemToSave = {
+                uid: systemUid,
+                topic: inputTopic.current?.value || '',
+                urlName: inputUrlName.current?.value || '',
+                urlImg: inputUrlImg.current?.value || '',
+                objectName: inputObjectName.current?.value || '',
+                adminUid: system?.adminUid || '',
+                description: inputDescription.current?.value || '',
+                communicationDetails: {
+                    email: inputEmail.current?.value || '',
+                    phone: inputPhone.current?.value || '',
+                }
+            }
+            await systemStore.updateSystem(systemToSave);
+            close();
             await swal({
                 title: "Saved!",
                 text: "your details update",
                 icon: "success",
                 button: "ok!",
             } as any);
-            close();
-        } catch (err) {
-            console.log(err);
         }
     };
 
@@ -96,44 +98,56 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
                     <TextField id="filled-password-input"
                         inputRef={inputTopic}
                         defaultValue={system?.topic}
+                        label='topic'
                         variant="filled"
-                        required sx={{ margin: '3%' }}
+                        sx={{ margin: '3%' }}
+                        required={true}
                     /> <br />
                     <TextField id="outlined-basic"
-                        inputRef={inputUrl}
+                        inputRef={inputUrlName}
                         defaultValue={system?.urlName}
+                        label='urlName'
                         variant="filled"
-                        required sx={{ margin: '3%' }}
+                        sx={{ margin: '3%' }}
+                        required={true}
                     /><br />
                     <TextField id="outlined-basic"
-                        inputRef={inputUrl}
+                        inputRef={inputUrlImg}
                         defaultValue={system?.urlImg}
+                        label='urlImg'
                         variant="filled"
-                        required sx={{ margin: '3%' }}
+                        sx={{ margin: '3%' }}
+                        required={true}
                     /><br />
                     <TextField id="outlined-basic"
                         inputRef={inputObjectName}
                         defaultValue={system?.objectName}
+                        label='objectName'
                         variant="filled"
-                        required sx={{ margin: '3%' }}
+                        sx={{ margin: '3%' }}
+                        required={true}
                     /><br />
                     <TextField id="outlined-basic"
                         inputRef={inputDescription}
                         defaultValue={system?.description}
-                        // multiline
+                        label='description'
+                        multiline
                         rows={2}
                         variant="filled"
-                        required sx={{ margin: '3%'}}
+                        sx={{ margin: '3%' }}
+                        required={true}
                     /><br />
                     <TextField id="outlined-basic"
                         inputRef={inputEmail}
-                        defaultValue={system?.communicationDetails.email || ''}
+                        defaultValue={system?.communicationDetails?.email}
+                        label='email'
                         variant="filled"
                         sx={{ margin: '3%' }}
                     /><br />
                     <TextField id="outlined-basic"
                         inputRef={inputPhone}
-                        defaultValue={system?.communicationDetails.phone || ''}
+                        defaultValue={system?.communicationDetails?.phone}
+                        label='phone'
                         variant="filled"
                         sx={{ margin: '3%' }}
                     />

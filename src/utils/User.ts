@@ -1,5 +1,5 @@
 export interface User{
-    _id?: any,
+    uid?: string,
     // role?: string,
     fireBaseUId: string,
     firstName: string,

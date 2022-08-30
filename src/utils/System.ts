@@ -1,10 +1,10 @@
 export interface System{
-    _id?: any;
+    uid?: string;
     topic: string;
     urlName: string;
     urlImg: string;
     objectName: string;
-    adminUid: any;
+    adminUid: string;
     description: string;
     communicationDetails: {email: string, phone: string};
 }

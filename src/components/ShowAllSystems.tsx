@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { EditSystem } from './editSystem';
 import { AddSystem } from './addSystem';
+import { System } from '../utils/System';
+import systemStore from '../store/SystemStore';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -12,20 +14,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import axios from 'axios';
 import swal from 'sweetalert';
-// import { async } from '@firebase/util';
-// import { idText } from 'typescript';
-import { useNavigate } from 'react-router-dom';
 import '../style/ShowAllSystems.css';
-interface System {
-  _id: any;
-  topic: string;
-  urlName: string;
-  urlImg: string;
-  objectName: string;
-  adminUid: any;
-  description: string;
-  communicationDetails: { email: string, phone: string };
-}
+
 
 const ShowAllSystems = () => {
   const id = '62f36d94a859f1a4aa9a8888';
@@ -42,12 +32,8 @@ const ShowAllSystems = () => {
 
   useEffect(() => {
     const fetch = async () => {
-      try {
-        const res = await axios.get(`http://localhost:3333/system/specificSystems/${id}`);
-        setSystems(res.data);
-      } catch (error: any) {
-        alert(error.message);
-      }
+      await systemStore.getSystemsOfAdmin();
+      setSystems(systemStore.systems);
     };
     fetch();
   }, [openAdd, openEdit]);
@@ -73,15 +59,22 @@ const ShowAllSystems = () => {
 
   const navigate = useNavigate();
 
+  const logout = () => {
+    navigate('/dashboard')
+  }
+
   return (
     <>
       <Box sx={{ width: '100%' }}>
         <Typography variant="h4" component="h2" textAlign={'center'}>
           All MY SYSTEMS
         </Typography>
-        {systems && systems.map((systemCard: System) =>
+        <Button className="dashboard__btn" onClick={logout}>
+          Logout
+        </Button>
+        {systems && systems.map((systemCard: System, index: number) =>
           <Card
-            key={systemCard._id}
+            key={index}
             sx={{ width: '210px', float: 'left', marginLeft: '5%', marginTop: '5%', }}
           >
             <CardMedia
@@ -105,10 +98,10 @@ const ShowAllSystems = () => {
             </CardContent>
             <CardActions>
               <Button variant="contained" size="small" onClick={() => {
-                setSystemIdTOEdit(systemCard._id);
+                setSystemIdTOEdit(systemCard.uid || '0');
                 setOpenEdit(true);
               }}>edit</Button>
-              <Button variant="contained" size="small" onClick={() => deleteSystem(systemCard._id)}>delete</Button>
+              <Button variant="contained" size="small" onClick={() => deleteSystem(systemCard.uid)}>delete</Button>
             </CardActions>
           </Card>
         )}
