@@ -38,7 +38,7 @@ const routes: IRoute[] = [
         name: 'Manager Page',
         protected: false
     },   {
-        path: '/systemHome',
+        path: '/:systemUrl',
         exact: true,
         component: SystemHome,
         name: 'System Page',
