@@ -2,6 +2,7 @@ import { makeAutoObservable } from 'mobx';
 import axios from 'axios';
 import { System } from '../utils/System';
 import userStore from './UserStore';
+import swal from 'sweetalert';
 
 const baseUrl = 'http://localhost:3333/system';
 
@@ -22,16 +23,13 @@ const getSystemsOfAdmin = async (adminId: string) => {
 const getSystemById = async (systemId: string) => {
     try {
         const res = await axios.get(`${baseUrl}/${systemId}`);
-        
+
         return res.data;
     } catch (error) { console.log(error); }
 }
 
 const updateSystem = async (system: System) => {
-    
-    const res = await axios.put(`${baseUrl}/${system.uid}`, system);
-    
-    console.log(res.data);
+    const res = await axios.put(`${baseUrl}/${system._id}`, system);
     return res.data;
 }
 
@@ -49,7 +47,7 @@ class Store {
     }
 
     async getSystemsOfAdmin() {
-        this.systems = await getSystemsOfAdmin(userStore.user?.uid || '0');
+        this.systems = await getSystemsOfAdmin(userStore.user?.fireBaseUId || '0');
     }
 
     async getSystemById(systemId: string) {
@@ -57,8 +55,14 @@ class Store {
     }
 
     async addSystem(system: System) {
-        await addSystem(system);
-        this.systems.push(system);
+        if (userStore.user) {
+            system.adminUid = userStore.user?.fireBaseUId || '';
+            await addSystem(system);
+            this.systems.push(system);
+        }
+        else swal("Please Login!",
+            "you can't make a system before login!",
+            "error");
     }
 
     async updateSystem(system: System) {

@@ -10,11 +10,10 @@ import systemStore from '../store/SystemStore';
 import swal from 'sweetalert';
 
 interface props {
-  adminUid: string;
   setOpenAdd: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const AddSystem: React.FC<props> = ({ adminUid, setOpenAdd }: props) => {
+export const AddSystem: React.FC<props> = ({ setOpenAdd }: props) => {
 
   const inputTopic = useRef<HTMLInputElement>();
   const inputName = useRef<HTMLInputElement>();
@@ -49,7 +48,7 @@ export const AddSystem: React.FC<props> = ({ adminUid, setOpenAdd }: props) => {
         urlName: inputName.current?.value || '',
         urlImg: inputUrl.current?.value || '',
         objectName: inputObjectName.current?.value || '',
-        adminUid: adminUid,
+        adminUid: "",
         description: inputDescription.current?.value || '',
         communicationDetails: {
           email: inputEmail.current?.value || '',

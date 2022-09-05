@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useRef, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -11,6 +12,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import systemStore from '../store/SystemStore';
 import swal from 'sweetalert';
 import { System } from '../utils/System';
+import userStore from '../store/UserStore';
 
 interface props {
     systemUid: string;
@@ -29,9 +31,12 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
     const inputEmail = useRef<HTMLInputElement>();
     const inputPhone = useRef<HTMLInputElement>();
 
+    const navigate = useNavigate();
     useEffect(() => {
+        if (!userStore.user){
+            navigate('/');
+        }
         const fetch = async () => {
-            console.log(systemUid);
             await systemStore.getSystemById(systemUid);
             setSystem(systemStore.currentSystem);
         };
@@ -58,7 +63,7 @@ export const EditSystem = ({ systemUid, setOpenEdit }: props) => {
     const editSystem = async () => {
         if (allFieldsAreFilled()) {
             const systemToSave = {
-                uid: systemUid,
+                _id: systemUid,
                 topic: inputTopic.current?.value || '',
                 urlName: inputUrlName.current?.value || '',
                 urlImg: inputUrlImg.current?.value || '',

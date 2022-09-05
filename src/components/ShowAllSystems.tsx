@@ -18,9 +18,8 @@ import '../style/ShowAllSystems.css';
 
 
 const ShowAllSystems = () => {
-  const id = '62f36d94a859f1a4aa9a8888';
   const maxOfSystems: number = 4;
-  const [systemIdTOEdit, setSystemIdTOEdit] = useState('0');
+  const [systemIdTOEdit, setSystemIdTOEdit] = useState('1');
   const [systems, setSystems] = useState<System[]>([]);
   const [openAdd, setOpenAdd] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState<boolean>(false);
@@ -59,19 +58,12 @@ const ShowAllSystems = () => {
 
   const navigate = useNavigate();
 
-  const logout = () => {
-    navigate('/dashboard')
-  }
-
   return (
     <>
       <Box sx={{ width: '100%' }}>
         <Typography variant="h4" component="h2" textAlign={'center'}>
           All MY SYSTEMS
         </Typography>
-        <Button className="dashboard__btn" onClick={logout}>
-          Logout
-        </Button>
         {systems && systems.map((systemCard: System, index: number) =>
           <Card
             key={index}
@@ -98,10 +90,10 @@ const ShowAllSystems = () => {
             </CardContent>
             <CardActions>
               <Button variant="contained" size="small" onClick={() => {
-                setSystemIdTOEdit(systemCard.uid || '0');
+                setSystemIdTOEdit(systemCard._id || '0');
                 setOpenEdit(true);
               }}>edit</Button>
-              <Button variant="contained" size="small" onClick={() => deleteSystem(systemCard.uid)}>delete</Button>
+              <Button variant="contained" size="small" onClick={() => deleteSystem(systemCard._id)}>delete</Button>
             </CardActions>
           </Card>
         )}
@@ -115,7 +107,7 @@ const ShowAllSystems = () => {
 
       {openEdit && <EditSystem systemUid={systemIdTOEdit} setOpenEdit={setOpenEdit} />}
 
-      {openAdd && <AddSystem adminUid={id} setOpenAdd={setOpenAdd} />}
+      {openAdd && <AddSystem setOpenAdd={setOpenAdd} />}
     </>
   )
 
