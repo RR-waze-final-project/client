@@ -10,7 +10,6 @@ export interface IApplicationProps { }
 const App: React.FunctionComponent<IApplicationProps> = props => {
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Monitor and Update user state.
   useEffect(() => {
     auth.onAuthStateChanged ( async user => {
       if (user) {
@@ -21,8 +20,9 @@ const App: React.FunctionComponent<IApplicationProps> = props => {
       setLoading(false);
     })
   }, []);
+
   if (loading)
-    return <div>Loding...</div>
+    return <div>Loading...</div>
 
   return (
     <Router>

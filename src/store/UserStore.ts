@@ -38,6 +38,7 @@ const getUser = async () => {
         } catch (error) { console.log(error); }
     }
 }
+
 class Store {
     user: User | null = null;
 

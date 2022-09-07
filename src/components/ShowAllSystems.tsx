@@ -60,8 +60,8 @@ const ShowAllSystems = () => {
 
   return (
     <>
-      <Box sx={{ width: '100%' }}>
-        <Typography variant="h4" component="h2" textAlign={'center'}>
+      <Box sx={{ width: '100%' }} textAlign={'center'}>
+        <Typography variant="h4" component="h2" >
           All MY SYSTEMS
         </Typography>
         {systems && systems.map((systemCard: System, index: number) =>
@@ -98,11 +98,11 @@ const ShowAllSystems = () => {
           </Card>
         )}
       </Box>
-      <Box sx={{ width: '100%', display: 'flex', marginBottom: '0%' }} >
-        <Button variant="outlined" onClick={handleClickOpen}>
+      <Box sx={{ width: '100%', display: 'flex', marginBottom: '0%' }}>
+        <Button variant="outlined" onClick={handleClickOpen}
+        sx={{ marginTop: '30px', marginLeft: 'calc(50vw - 90px)'}}>
           Add a new system
         </Button>
-
       </Box>
 
       {openEdit && <EditSystem systemUid={systemIdTOEdit} setOpenEdit={setOpenEdit} />}

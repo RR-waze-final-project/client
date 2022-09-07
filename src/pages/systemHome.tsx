@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useLoadScript } from '@react-google-maps/api';
+import { Nav } from '../components/Nav';
 import { SystemHeader } from '../components/systemHeader';
 import { Map } from '../components/map';
 import { Box } from '@mui/material';
@@ -40,24 +41,25 @@ export const SystemHome = () => {
   };
 
 
-  return ( 
+  return (
     <>
-    {center &&
-    <>
-      <Box sx={{ textAlign: 'center' }}>
-        <SystemHeader />
-      </Box>
-      <Box >
-        <Box >
-          <Map/>
-        </Box>
-        {/* <Box sx={{ width: '20%', direction: 'rtl' }}>
+    <Nav />
+      {center &&
+        <>
+          <Box sx={{ textAlign: 'center' }}>
+            <SystemHeader />
+          </Box>
+          <Box >
+            <Box >
+              <Map />
+            </Box>
+            {/* <Box sx={{ width: '20%', direction: 'rtl' }}>
           <AutoComplete setCenter= {setCenter} />
         </Box> */}
-      </Box>
+          </Box>
+        </>
+      }
     </>
-  }
-  </>
   )
 }
 

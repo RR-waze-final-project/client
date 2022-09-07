@@ -44,7 +44,7 @@ export const Nav = () => {
         setUserLogin(true);
         navigate('/auth/login');
     }
-
+    // 
     return (
         <Box sx={{ flexGrow: 1 }}>
             <FormGroup>
@@ -100,8 +100,8 @@ export const Nav = () => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                { userLogin && <MenuItem onClick={logout}> Logout </MenuItem> }
-                                { !userLogin && <MenuItem onClick={login}>Login</MenuItem> }
+                                {userLogin && <MenuItem onClick={logout}> Logout </MenuItem>}
+                                {!userLogin && <MenuItem onClick={login}>Login</MenuItem>}
                             </Menu>
                         </div>
                     )}

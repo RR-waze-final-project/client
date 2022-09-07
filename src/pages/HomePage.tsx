@@ -9,8 +9,6 @@ const HomePage: React.FunctionComponent<IPageProps> = props => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log('userStore.user');
-        console.log(userStore.user);
         if (auth.currentUser) {
             navigate('/managerPage');
         }
