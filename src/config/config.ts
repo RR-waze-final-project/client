@@ -9,4 +9,6 @@ const config = {
     }
 }
 
+console.log(process.env.SENDGRID_API_KEY);
+
 export default config;

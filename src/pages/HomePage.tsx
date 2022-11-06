@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../config/firebase';
 import IPageProps from '../interfaces/page.interface';
-import userStore from '../store/UserStore';
 
 const HomePage: React.FunctionComponent<IPageProps> = props => {
     const navigate = useNavigate();

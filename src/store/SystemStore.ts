@@ -1,40 +1,64 @@
 import { makeAutoObservable } from 'mobx';
 import axios from 'axios';
+import { auth } from '../config/firebase';
 import { System } from '../utils/System';
 import userStore from './UserStore';
 import swal from 'sweetalert';
 
+// const baseUrl = 'https://rr-waze-final-project.uc.r.appspot.com/system';
 const baseUrl = 'http://localhost:3333/system';
+
+const getHeaders = async () => {
+    const token = await auth.currentUser?.getIdToken();
+    return {
+        Authorization: `Bearer ${token}`
+    }
+}
 
 const addSystem = async (system: System) => {
     try {
-        const res = await axios.post(baseUrl, system);
+        const headers = await getHeaders();  
+        const res = await axios.post(baseUrl, system, {
+            headers: headers,
+        });
         return res.data;
     } catch (error) { console.log(error); }
 }
 
-const getSystemsOfAdmin = async (adminId: string) => {
+const getSystemsOfAdmin = async () => {
     try {
-        const res = await axios.get(`${baseUrl}/specificSystems/${adminId}`)
+        const headers = await getHeaders();  
+        const res = await axios.get(baseUrl, {
+            headers: headers,
+        })
         return res.data;
     } catch (error) { console.log(error); }
 }
 
 const getSystemById = async (systemId: string) => {
     try {
-        const res = await axios.get(`${baseUrl}/${systemId}`);
+        const headers = await getHeaders();  
+        const res = await axios.get(`${baseUrl}/${systemId}`, {
+            headers: headers,
+        });
 
         return res.data;
     } catch (error) { console.log(error); }
 }
 
 const updateSystem = async (system: System) => {
-    const res = await axios.put(`${baseUrl}/${system._id}`, system);
+    const headers = await getHeaders();  
+    const res = await axios.put(`${baseUrl}/${system._id}`, system, {
+        headers: headers,
+    });
     return res.data;
 }
 
 const deleteSystem = async (systemId: string) => {
-    const res = await axios.delete(`${baseUrl}/${systemId}`);
+    const headers = await getHeaders();  
+    const res = await axios.delete(`${baseUrl}/${systemId}`, {
+        headers: headers,
+    });
     return res.data;
 }
 
@@ -47,7 +71,7 @@ class Store {
     }
 
     async getSystemsOfAdmin() {
-        this.systems = await getSystemsOfAdmin(userStore.user?.fireBaseUId || '0');
+        this.systems = await getSystemsOfAdmin();
     }
 
     async getSystemById(systemId: string) {
@@ -55,6 +79,7 @@ class Store {
     }
 
     async addSystem(system: System) {
+        console.log(userStore.user);
         if (userStore.user) {
             system.adminUid = userStore.user?.fireBaseUId || '';
             await addSystem(system);

@@ -14,6 +14,7 @@ const App: React.FunctionComponent<IApplicationProps> = props => {
     auth.onAuthStateChanged ( async user => {
       if (user) {
         await userStore.getUserById();
+        console.log(userStore.user);
       } else {
         console.log('No user detected');
       }

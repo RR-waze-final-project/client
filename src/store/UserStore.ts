@@ -4,17 +4,18 @@ import { auth } from '../config/firebase';
 import { User } from '../utils/User'
 
 const baseUrl = 'http://localhost:3333/user';
+// const baseUrl = 'https://rr-waze-final-project.uc.r.appspot.com/user';
 
-const putUser = async (user: User) => {
-    try {
-        const res = await axios.put(`http://localhost:3333/user/addUser`, user);
-        let tempList = await res.data;
-        return tempList;
-    } catch (error) { console.log(error); }
+const getHeaders = async () => {
+    const token = await auth.currentUser?.getIdToken();
+    return {
+        Authorization: `Bearer ${token}`
+    }
 }
 
 const addUser = async (firstName: string, lastName: string, phone: string | undefined | null) => {
     try {
+        const headers = await getHeaders();  
         const user = {
             fireBaseUId: auth.currentUser?.uid,
             role: 'admin',
@@ -23,7 +24,9 @@ const addUser = async (firstName: string, lastName: string, phone: string | unde
             phone,
             email: auth.currentUser?.email,
         }
-        const res = await axios.post(baseUrl, user);
+        const res = await axios.post(baseUrl, user, {
+            headers: headers,
+        });
         let tempList = await res.data;
         return tempList;
     } catch (error) { console.log(error); }
@@ -33,7 +36,10 @@ const getUser = async () => {
     const userId = auth.currentUser?.uid;
     if (userId) {
         try {
-            const res = await axios.get(`${baseUrl}/${userId}`);
+            const headers = await getHeaders();  
+            const res = await axios.get(`${baseUrl}/${userId}`, {
+                headers: headers,
+            });
             return res.data;
         } catch (error) { console.log(error); }
     }
@@ -53,11 +59,6 @@ class Store {
 
     async getUserById() {
         this.user = await getUser();
-    }
-
-    async putUser(user: User) {
-        await putUser(user);
-        this.user = user;
     }
 }
 const userStore = new Store();

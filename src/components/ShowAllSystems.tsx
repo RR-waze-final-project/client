@@ -12,10 +12,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import axios from 'axios';
 import swal from 'sweetalert';
 import '../style/ShowAllSystems.css';
 
+import { SendGrid } from './sendGrid';
 
 const ShowAllSystems = () => {
   const maxOfSystems: number = 4;
@@ -46,7 +46,7 @@ const ShowAllSystems = () => {
           buttons: ["cancel", "ok"],
         });
         if (willDelete) {
-          await axios.delete(`http://localhost:3333/system/${id}`);
+          await systemStore.removeSystem(id);
           swal("Deleted!", "Your system has been deleted.", "success");
         };
       } catch (error: any) {
@@ -60,6 +60,7 @@ const ShowAllSystems = () => {
 
   return (
     <>
+    <SendGrid />
       <Box sx={{ width: '100%' }} textAlign={'center'}>
         <Typography variant="h4" component="h2" >
           All MY SYSTEMS
